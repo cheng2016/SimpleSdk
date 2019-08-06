@@ -36,7 +36,7 @@ public class SdkManager {
   public void login(String paramString1, String paramString2, final ISDKLoginListener listener) {
     Log.d("U8SDK", "sdk login called. username:" + paramString1 + ";password:" + paramString2);
     String str = System.currentTimeMillis() + "";
-    final HashMap params = new HashMap();
+    final HashMap hashMap = new HashMap();
     hashMap.put("name", paramString1);
     hashMap.put("password", paramString2);
     hashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
@@ -44,7 +44,7 @@ public class SdkManager {
     hashMap.put("sign", EncryptUtils.md5Sign(hashMap, U8SDK.getInstance().getAppKey()));
     GUtils.runInThread(new Runnable() {
           public void run() {
-            str = U8HttpUtils.httpPost(url, params);
+            str = U8HttpUtils.httpPost(url, hashMap);
             Log.d("U8SDK", "default login result:" + str);
             try {
               JSONObject jSONObject = new JSONObject(str);
@@ -73,7 +73,7 @@ public class SdkManager {
       ResourceHelper.showTip(paramActivity, "R.string.x_pay_no_login");
       return;
     } 
-    final LinkedHashMap data = new LinkedHashMap();
+    final LinkedHashMap linkedHashMap = new LinkedHashMap();
     linkedHashMap.put("uid", this.lastUserID);
     linkedHashMap.put("price", paramPayParams.getPrice() + "");
     linkedHashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
@@ -85,7 +85,7 @@ public class SdkManager {
     linkedHashMap.put("sign", EncryptUtils.md5Sign(linkedHashMap, U8SDK.getInstance().getAppKey()));
     GUtils.runInThread(new Runnable() {
           public void run() {
-            str = U8HttpUtils.httpPost(url, data);
+            str = U8HttpUtils.httpPost(url, linkedHashMap);
             Log.d("U8SDK", "default pay result:" + str);
             try {
               if ((new JSONObject(str)).getInt("state") == 1) {
@@ -105,7 +105,7 @@ public class SdkManager {
   
   public void register(String paramString1, String paramString2, final ISDKLoginListener listener) {
     String str = System.currentTimeMillis() + "";
-    final HashMap params = new HashMap();
+    final HashMap hashMap = new HashMap();
     hashMap.put("name", paramString1);
     hashMap.put("password", paramString2);
     hashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
@@ -113,7 +113,7 @@ public class SdkManager {
     hashMap.put("sign", EncryptUtils.md5Sign(hashMap, U8SDK.getInstance().getAppKey()));
     GUtils.runInThread(new Runnable() {
           public void run() {
-            str = U8HttpUtils.httpPost(url, params);
+            str = U8HttpUtils.httpPost(url, hashMap);
             Log.d("U8SDK", "default register result:" + str);
             try {
               JSONObject jSONObject = new JSONObject(str);
@@ -138,13 +138,13 @@ public class SdkManager {
   
   public void registerOnekey(String paramString, final ISDKRegisterOnekeyListener listener) {
     paramString = System.currentTimeMillis() + "";
-    final HashMap params = new HashMap();
+    final HashMap hashMap = new HashMap();
     hashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
     hashMap.put("time", paramString);
     hashMap.put("sign", EncryptUtils.md5Sign(hashMap, U8SDK.getInstance().getAppKey()));
     GUtils.runInThread(new Runnable() {
           public void run() {
-            str = U8HttpUtils.httpPost(url, params);
+            str = U8HttpUtils.httpPost(url, hashMap);
             Log.d("U8SDK", "default fast register result:" + str);
             try {
               JSONObject jSONObject = new JSONObject(str);
