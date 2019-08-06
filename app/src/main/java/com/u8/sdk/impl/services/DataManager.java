@@ -126,7 +126,3 @@ public class DataManager {
 }
 
 
-/* Location:              C:\Users\mitni\Desktop\gitwork\AndroidTool\classes-dex2jar.jar!\co\\u8\sdk\impl\services\DataManager.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       1.0.6
- */
