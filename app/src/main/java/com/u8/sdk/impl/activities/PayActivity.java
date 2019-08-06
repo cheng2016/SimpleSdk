@@ -227,8 +227,8 @@ public class PayActivity extends Activity {
     try {
       initUI();
       return;
-    } catch (Exception paramBundle) {
-      paramBundle.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
       return;
     } 
   }

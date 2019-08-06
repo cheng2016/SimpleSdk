@@ -47,9 +47,9 @@ public class SimpleUser implements IUser {
               jSONObject.put("username", param1String2);
               U8SDK.getInstance().onLoginResult(jSONObject.toString());
               return;
-            } catch (Exception param1String1) {
+            } catch (Exception e) {
               U8SDK.getInstance().onResult(5, param1String1.getMessage());
-              param1String1.printStackTrace();
+              e.printStackTrace();
               return;
             } 
           }

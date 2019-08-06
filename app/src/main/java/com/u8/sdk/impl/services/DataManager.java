@@ -43,11 +43,11 @@ public class DataManager {
         arrayList.add(simpleUser);
       } 
       return arrayList;
-    } catch (JSONException paramContext) {
-      paramContext.printStackTrace();
+    } catch (JSONException e) {
+      e.printStackTrace();
       return arrayList;
-    } catch (Exception paramContext) {
-      paramContext.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
       return arrayList;
     } 
   }
@@ -111,8 +111,8 @@ public class DataManager {
       Iterator iterator = paramList.iterator();
       while (iterator.hasNext())
         jSONArray.put(((SimpleUser)iterator.next()).toJSON()); 
-    } catch (Exception paramContext) {
-      paramContext.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
       return;
     } 
     StoreUtils.putString(paramContext, "plocal_users", Base64.encode(jSONArray.toString().getBytes()));

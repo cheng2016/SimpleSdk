@@ -44,7 +44,7 @@ public class GridPayAdapter extends BaseAdapter {
     } else {
       viewHolder = (ViewHolder)paramView.getTag();
     } 
-    GridPayTypeData gridPayTypeData = (GridPayTypeData)this.dataList.get(paramInt);
+    GridPayTypeData gridPayTypeData = (GridPayTypeData)this.dataList.get(position);
     viewHolder.payTypeName.setText(gridPayTypeData.name);
     viewHolder.payTypeImage.setImageResource(gridPayTypeData.imgID);
     if (gridPayTypeData.isChecked) {

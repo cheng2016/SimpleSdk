@@ -86,7 +86,7 @@ public class DefaultSDKPlatform {
     this.lastPayData = null;
   }
   
-  public void submitGameData(Activity paramActivity, final UserExtraData data) { SdkManager.getInstance().submitGameData(paramActivity, paramUserExtraData, new ISDKListener() {
+  public void submitGameData(Activity paramActivity, final UserExtraData data) { SdkManager.getInstance().submitGameData(paramActivity, data, new ISDKListener() {
           public void onFailed(int param1Int) {}
           
           public void onSuccess() { Toast.makeText(U8SDK.getInstance().getContext(), data.toString(), 1).show(); }

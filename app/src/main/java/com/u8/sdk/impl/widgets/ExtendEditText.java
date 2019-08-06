@@ -45,8 +45,8 @@ public class ExtendEditText extends EditText {
   private void init() {
     this.mRightDrawable = ResourceHelper.getDrawable(getContext(), "R.drawable.x_common_input_clear");
     this.mRightDrawable.setBounds(0, 0, this.mRightDrawable.getMinimumWidth(), this.mRightDrawable.getMinimumHeight());
-    setOnFocusChangeListener(new FocusChangeListenerImpl(null));
-    addTextChangedListener(new TextWatcherImpl(null));
+    setOnFocusChangeListener(new FocusChangeListenerImpl());
+    addTextChangedListener(new TextWatcherImpl());
     setOnEditorActionListener(new TextView.OnEditorActionListener() {
           public boolean onEditorAction(TextView param1TextView, int param1Int, KeyEvent param1KeyEvent) {
             ExtendEditText.this.setClearDrawableVisible(false);
