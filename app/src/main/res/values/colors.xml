@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="x_appDarkGrey">#ff949393</color>
+    <color name="x_backbtn">#ffd6a839</color>
+    <color name="x_background_gray">#fff5f5f5</color>
+    <color name="x_btn_blue">#ff4790c6</color>
+    <color name="x_con_dialogblack">#ff333333</color>
+    <color name="x_cut_line_gray">#ffc9c9c9</color>
+    <color name="x_exit_bg">#fff5f5f5</color>
+    <color name="x_exit_btn_gray">#ffcfcfcf</color>
+    <color name="x_line_gray">#ffe3e3e3</color>
+    <color name="x_login_findpwd">#ff666666</color>
+    <color name="x_login_namepwd">#ff999999</color>
+    <color name="x_login_register_faststart">#ffce9409</color>
+    <color name="x_red">#ffff0000</color>
+    <color name="x_red_text">#ffff5555</color>
+    <color name="x_theme_color">#ffffdc46</color>
+    <color name="x_tip_yellow">#ffce9409</color>
+    <color name="x_title_blue">#ff5098cd</color>
+    <color name="x_txt_gray">#ff999999</color>
+    <color name="x_txt_gray2">#ff666666</color>
+    <color name="x_txt_gray3">#ffcccccc</color>
+    <color name="x_userlist_hint">#ff999999</color>
+    <color name="x_white">#ffffffff</color>
+</resources>

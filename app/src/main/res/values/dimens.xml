@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_large">16.0dip</dimen>
+    <dimen name="padding_medium">8.0dip</dimen>
+    <dimen name="padding_small">8.0dip</dimen>
+    <dimen name="x_autologin_textsize">13.0sp</dimen>
+    <dimen name="x_common_textsize_l">20.0sp</dimen>
+    <dimen name="x_common_textsize_m">16.0sp</dimen>
+    <dimen name="x_common_textsize_s">15.0sp</dimen>
+    <dimen name="x_common_title_height">50.0dip</dimen>
+</resources>

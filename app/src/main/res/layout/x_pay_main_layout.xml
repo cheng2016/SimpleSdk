@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/x_pay_main" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:background="@drawable/x_corner_login_bg" android:layout_width="300.0dip" android:layout_height="wrap_content">
+        <RelativeLayout android:background="@drawable/x_corner_title" android:layout_width="fill_parent" android:layout_height="50.0dip">
+            <TextView android:textSize="18.0sp" android:textColor="@color/x_white" android:id="@id/x_paymaintitle" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/x_paytitle" android:layout_centerInParent="true" />
+            <LinearLayout android:orientation="horizontal" android:id="@id/x_pay_back" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentRight="true">
+                <ImageView android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="16.0dip" android:src="@drawable/x_r_close" />
+            </LinearLayout>
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="horizontal" android:id="@id/x_payorderinfo" android:background="@drawable/x_s_corner_white_gray" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="10.0dip">
+                <TextView android:textSize="13.0sp" android:textColor="@color/x_txt_gray" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="5.0dip" android:layout_marginBottom="8.0dip" android:text="@string/x_paynum" />
+                <TextView android:textSize="15.0sp" android:textColor="@color/x_red_text" android:gravity="right" android:id="@id/x_payorderinfomsg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="8.0dip" android:text="$100" android:singleLine="true" />
+            </LinearLayout>
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="5.0dip">
+                <View android:background="@color/x_line_gray" android:layout_width="80.0dip" android:layout_height="1.0dip" android:layout_marginTop="8.0dip" android:layout_alignParentLeft="true" />
+                <TextView android:textSize="12.0sp" android:textColor="@color/x_txt_gray" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/x_payordertype" android:layout_centerInParent="true" />
+                <View android:background="@color/x_line_gray" android:layout_width="80.0dip" android:layout_height="1.0dip" android:layout_marginTop="8.0dip" android:layout_alignParentRight="true" />
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="90.0dip" android:layout_marginLeft="12.0dip" android:layout_marginRight="12.0dip">
+                <include layout="@layout/x_pay_gridview" />
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <Button android:textSize="13.0sp" android:textColor="@color/x_white" android:id="@id/x_paybtn" android:background="@drawable/x_corner_button" android:layout_width="fill_parent" android:layout_height="38.0dip" android:layout_marginLeft="20.0dip" android:layout_marginTop="8.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="10.0dip" android:text="@string/x_paybtn" />
+                <TextView android:textSize="12.0sp" android:textColor="@color/x_tip_yellow" android:id="@id/x_payhelpabout" android:layout_width="wrap_content" android:layout_height="20.0dip" android:layout_marginRight="20.0dip" android:layout_marginBottom="15.0dip" android:text="@string/x_payhelp" android:layout_below="@id/x_paybtn" android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

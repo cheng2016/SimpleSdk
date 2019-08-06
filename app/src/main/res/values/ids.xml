@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="x_login_view" />
+    <item type="id" name="x_login_username" />
+    <item type="id" name="x_login_userpwd" />
+    <item type="id" name="x_login_showpwd" />
+    <item type="id" name="x_login_showpwdImg" />
+    <item type="id" name="x_login_go" />
+    <item type="id" name="x_login_register" />
+    <item type="id" name="x_login_faststart" />
+    <item type="id" name="x_login_findpwd" />
+    <item type="id" name="x_pay_view" />
+    <item type="id" name="x_pay_gv_rl_bg" />
+    <item type="id" name="x_rl_iv" />
+    <item type="id" name="x_pay_img" />
+    <item type="id" name="x_pay_slt" />
+    <item type="id" name="x_pay_c_name" />
+    <item type="id" name="x_paygridview" />
+    <item type="id" name="x_pay_main" />
+    <item type="id" name="x_paymaintitle" />
+    <item type="id" name="x_pay_back" />
+    <item type="id" name="x_payorderinfo" />
+    <item type="id" name="x_payorderinfomsg" />
+    <item type="id" name="x_paybtn" />
+    <item type="id" name="x_payhelpabout" />
+    <item type="id" name="x_register_user_view" />
+    <item type="id" name="x_register_name" />
+    <item type="id" name="x_register_pwd" />
+    <item type="id" name="x_regu_showpwd" />
+    <item type="id" name="x_regu_showpwdImg" />
+    <item type="id" name="x_register_user_go" />
+    <item type="id" name="x_register_user_jump" />
+    <item type="id" name="x_register_user_back" />
+    <item type="id" name="menu_settings" />
+</resources>
