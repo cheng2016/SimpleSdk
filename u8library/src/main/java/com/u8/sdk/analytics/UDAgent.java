@@ -21,14 +21,14 @@ public class UDAgent {
     }
 
 
-    public void init(Activity context) {
+    public void init(final Activity context) {
         try {
-            UDevice device = UDManager.getInstance().collectDeviceInfo(context, Integer.valueOf(U8SDK.getInstance().getAppID()), Integer.valueOf(U8SDK.getInstance().getCurrChannel()), Integer.valueOf(U8SDK.getInstance().getSubChannel()));
+            final UDevice device = UDManager.getInstance().collectDeviceInfo(context, Integer.valueOf(U8SDK.getInstance().getAppID()), Integer.valueOf(U8SDK.getInstance().getCurrChannel()), Integer.valueOf(U8SDK.getInstance().getSubChannel()));
             if (device == null) {
                 Log.e("U8SDK", "collect device info failed");
                 return;
             }
-            SubmitTask task = new SubmitTask(new ISubmitListener(this, context, device) {
+            SubmitTask task = new SubmitTask(new ISubmitListener() {
                 public void run() {
                     UDManager.getInstance().submitDeviceInfo(context, U8SDK.getInstance().getAnalyticsURL(), U8SDK.getInstance().getAppKey(), device);
                 }
@@ -41,7 +41,7 @@ public class UDAgent {
     }
 
 
-    public void submitUserInfo(Activity context, UserExtraData user) {
+    public void submitUserInfo(final Activity context, UserExtraData user) {
         try {
             UToken token = U8SDK.getInstance().getUToken();
             if (token == null) {
@@ -49,7 +49,7 @@ public class UDAgent {
 
                 return;
             }
-            UUserLog log = new UUserLog();
+            final UUserLog log = new UUserLog();
             boolean sendable = false;
             switch (user.getDataType()) {
                 case 2:
@@ -82,7 +82,7 @@ public class UDAgent {
                 log.setDeviceID(GUtils.getDeviceID(context));
 
 
-                SubmitTask task = new SubmitTask(new ISubmitListener(this, context, log) {
+                SubmitTask task = new SubmitTask(new ISubmitListener() {
                     public void run() {
                         UDManager.getInstance().submitUserInfo(context, U8SDK.getInstance().getAnalyticsURL(), U8SDK.getInstance().getAppKey(), log);
                     }

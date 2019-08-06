@@ -15,36 +15,36 @@ public final class Base64 {
     private static final char[] lookUpBase64Alphabet = new char[64];
 
     static {
-        for (i = 0; i < 128; i++) {
+        for (int i = 0; i < BASELENGTH; ++i) {
             base64Alphabet[i] = -1;
         }
-        for (i = 90; i >= 65; i--) {
-            base64Alphabet[i] = (byte) (i - 65);
+        for (int i = 'Z'; i >= 'A'; i--) {
+            base64Alphabet[i] = (byte) (i - 'A');
         }
-        for (i = 122; i >= 97; i--) {
-            base64Alphabet[i] = (byte) (i - 97 + 26);
-        }
-
-        for (i = 57; i >= 48; i--) {
-            base64Alphabet[i] = (byte) (i - 48 + 52);
+        for (int i = 'z'; i >= 'a'; i--) {
+            base64Alphabet[i] = (byte) (i - 'a' + 26);
         }
 
-        base64Alphabet[43] = 62;
-        base64Alphabet[47] = 63;
+        for (int i = '9'; i >= '0'; i--) {
+            base64Alphabet[i] = (byte) (i - '0' + 52);
+        }
 
-        for (i = 0; i <= 25; i++) {
-            lookUpBase64Alphabet[i] = (char) (65 + i);
+        base64Alphabet['+'] = 62;
+        base64Alphabet['/'] = 63;
+
+        for (int i = 0; i <= 25; i++) {
+            lookUpBase64Alphabet[i] = (char) ('A' + i);
         }
-        int j;
-        for (i = 26, j = 0; i <= 51; i++, j++) {
-            lookUpBase64Alphabet[i] = (char) (97 + j);
+
+        for (int i = 26, j = 0; i <= 51; i++, j++) {
+            lookUpBase64Alphabet[i] = (char) ('a' + j);
         }
-        int j;
-        for (i = 52, j = 0; i <= 61; i++, j++) {
-            lookUpBase64Alphabet[i] = (char) (48 + j);
+
+        for (int i = 52, j = 0; i <= 61; i++, j++) {
+            lookUpBase64Alphabet[i] = (char) ('0' + j);
         }
-        lookUpBase64Alphabet[62] = '+';
-        lookUpBase64Alphabet[63] = '/';
+        lookUpBase64Alphabet[62] = (char) '+';
+        lookUpBase64Alphabet[63] = (char) '/';
     }
 
 

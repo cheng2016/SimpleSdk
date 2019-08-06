@@ -2,7 +2,6 @@ package com.u8.sdk.log;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,8 +131,8 @@ public class Log {
 
             Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
-                public void uncaughtException(Thread t, Throwable e) {
-                    (new Thread(new Runnable(this, e) {
+                public void uncaughtException(Thread t, final Throwable e) {
+                    (new Thread(new Runnable() {
 
 
                         public void run() {

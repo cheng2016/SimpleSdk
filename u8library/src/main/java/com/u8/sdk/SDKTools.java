@@ -176,8 +176,8 @@ public class SDKTools {
     }
 
 
-    public static String getSystemKeyboard(Activity activity) {
-        FutureTask<String> futureResult = new FutureTask<String>(new Callable<String>(activity) {
+    public static String getSystemKeyboard(final Activity activity) {
+        FutureTask<String> futureResult = new FutureTask<String>(new Callable<String>() {
             @SuppressLint({"NewApi"})
             public String call() throws Exception {
                 ClipboardManager cmb = (ClipboardManager) activity.getSystemService("clipboard");

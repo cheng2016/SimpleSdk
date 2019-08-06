@@ -116,7 +116,7 @@ public class GUtils {
     @SuppressLint({"NewApi"})
     private static String getAdressMacByInterface() {
         try {
-            List all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : all) {
                 if (nif.getName().equalsIgnoreCase("wlan0")) {
                     byte[] macBytes = nif.getHardwareAddress();

@@ -24,6 +24,7 @@ import java.util.List;
 public class U8Pay {
     private static U8Pay instance;
     private IPay payPlugin;
+    private PayParams currPayParams;
 
     public static U8Pay getInstance() {
         if (instance == null) {
