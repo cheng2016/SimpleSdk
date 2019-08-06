@@ -79,19 +79,19 @@ public class LoginActivity extends Activity {
     SdkManager.getInstance().login(str1, str2, new ISDKLoginListener() {
           public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
                   public void run() {
-                    ResourceHelper.showTip(LoginActivity.null.this.this$0, "R.string.x_login_fail");
+                    ResourceHelper.showTip(LoginActivity.this, "R.string.x_login_fail");
                     DefaultSDKPlatform.getInstance().loginFailCallback();
                   }
                 }); }
           
           public void onSuccess(final String id, final String name) { LoginActivity.this.runOnUiThread(new Runnable() {
                   public void run() {
-                    StoreUtils.putString(LoginActivity.null.this.this$0, "u8_key_login_name", username);
-                    StoreUtils.putString(LoginActivity.null.this.this$0, "u8_key_password", password);
-                    ResourceHelper.showTip(LoginActivity.null.this.this$0, "R.string.x_login_suc");
+                    StoreUtils.putString(LoginActivity.this, "u8_key_login_name", username);
+                    StoreUtils.putString(LoginActivity.this, "u8_key_password", password);
+                    ResourceHelper.showTip(LoginActivity.this, "R.string.x_login_suc");
                     DefaultSDKPlatform.getInstance().loginSucCallback(id, name);
-                    LoginActivity.null.this.this$0.finish();
-                    LoginActivity.null.this.this$0.overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.null.this.this$0, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.null.this.this$0, "R.anim.x_disappear_to_right"));
+                    finish();
+                    overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_disappear_to_right"));
                   }
                 }); }
         });
@@ -102,23 +102,23 @@ public class LoginActivity extends Activity {
       SdkManager.getInstance().registerOnekey("", new ISDKRegisterOnekeyListener() {
             public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                      ResourceHelper.showTip(LoginActivity.null.this.this$0, "R.string.x_fastlogin_accout_fail");
-                      LoginActivity.null.this.this$0.x_register_name.setText("");
-                      LoginActivity.null.this.this$0.x_register_pwd.setText("");
+                      ResourceHelper.showTip(LoginActivity.this, "R.string.x_fastlogin_accout_fail");
+                      x_register_name.setText("");
+                      x_register_pwd.setText("");
                       DefaultSDKPlatform.getInstance().loginFailCallback();
                     }
                   }); }
             
             public void onSuccess(final String id, final String name, final String password) { LoginActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                      StoreUtils.putString(LoginActivity.null.this.this$0, "u8_key_login_name", name);
-                      StoreUtils.putString(LoginActivity.null.this.this$0, "u8_key_password", password);
+                      StoreUtils.putString(LoginActivity.this, "u8_key_login_name", name);
+                      StoreUtils.putString(LoginActivity.this, "u8_key_password", password);
                       StringBuffer stringBuffer = new StringBuffer();
-                      stringBuffer.append(ResourceHelper.getString(LoginActivity.null.this.this$0, "R.string.x_fastlogin_accout")).append(name).append("\n").append(ResourceHelper.getString(LoginActivity.null.this.this$0, "R.string.x_fastlogin_pwd")).append(password);
-                      Toast.makeText(LoginActivity.null.this.this$0, stringBuffer.toString(), 0).show();
+                      stringBuffer.append(ResourceHelper.getString(LoginActivity.this, "R.string.x_fastlogin_accout")).append(name).append("\n").append(ResourceHelper.getString(LoginActivity.this, "R.string.x_fastlogin_pwd")).append(password);
+                      Toast.makeText(LoginActivity.this, stringBuffer.toString(), 0).show();
                       DefaultSDKPlatform.getInstance().loginSucCallback(id, name);
-                      LoginActivity.null.this.this$0.finish();
-                      LoginActivity.null.this.this$0.overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.null.this.this$0, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.null.this.this$0, "R.anim.x_disappear_to_right"));
+                      finish();
+                      overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_disappear_to_right"));
                     }
                   }); }
           });
@@ -131,21 +131,21 @@ public class LoginActivity extends Activity {
     SdkManager.getInstance().register(paramString1, paramString2, new ISDKLoginListener() {
           public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
                   public void run() {
-                    ResourceHelper.showTip(LoginActivity.null.this.this$0, "R.string.x_register_fail");
-                    LoginActivity.null.this.this$0.x_register_name.setText("");
-                    LoginActivity.null.this.this$0.x_register_pwd.setText("");
+                    ResourceHelper.showTip(LoginActivity.this, "R.string.x_register_fail");
+                    x_register_name.setText("");
+                    x_register_pwd.setText("");
                     DefaultSDKPlatform.getInstance().loginFailCallback();
                   }
                 }); }
           
           public void onSuccess(final String id, final String name) { LoginActivity.this.runOnUiThread(new Runnable() {
                   public void run() {
-                    StoreUtils.putString(LoginActivity.null.this.this$0, "u8_key_login_name", username);
-                    StoreUtils.putString(LoginActivity.null.this.this$0, "u8_key_password", password);
-                    ResourceHelper.showTip(LoginActivity.null.this.this$0, "R.string.x_register_suc");
+                    StoreUtils.putString(LoginActivity.this, "u8_key_login_name", username);
+                    StoreUtils.putString(LoginActivity.this, "u8_key_password", password);
+                    ResourceHelper.showTip(LoginActivity.this, "R.string.x_register_suc");
                     DefaultSDKPlatform.getInstance().loginSucCallback(id, name);
-                    LoginActivity.null.this.this$0.finish();
-                    LoginActivity.null.this.this$0.overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.null.this.this$0, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.null.this.this$0, "R.anim.x_disappear_to_right"));
+                    finish();
+                    overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_disappear_to_right"));
                   }
                 }); }
         });
