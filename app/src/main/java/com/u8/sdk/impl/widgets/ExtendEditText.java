@@ -57,31 +57,27 @@ public class ExtendEditText extends EditText {
     setImeOptions(268435462);
   }
   
-  public boolean onTouchEvent(MotionEvent paramMotionEvent) {
-    boolean bool = true;
-    switch (paramMotionEvent.getAction()) {
-      default:
-        return super.onTouchEvent(paramMotionEvent);
-      case 0:
-        break;
-    } 
-    if (this.isVisb) {
-      boolean bool1;
-      if (paramMotionEvent.getX() > (getWidth() - getTotalPaddingRight()) && paramMotionEvent.getX() < (getWidth() - getPaddingRight())) {
-        bool1 = true;
-      } else {
-        bool1 = false;
-      } 
-      if (bool1) {
-        setText("");
-        if (this.OndelTouched != null)
-          this.OndelTouched.onItemOntouch(); 
-      } 
-    } 
-    if (getText().toString().length() < 1)
-      bool = false; 
-    setClearDrawableVisible(bool);
-    performClick();
+	public boolean onTouchEvent(MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			if (this.isVisb) {
+				boolean isClean = (event.getX() > getWidth() - getTotalPaddingRight())
+						&& (event.getX() < getWidth() - getPaddingRight());
+				if (isClean) {
+					setText("");
+					if (this.OndelTouched != null)
+						this.OndelTouched.onItemOntouch();
+				}
+			}
+			boolean isVisible = getText().toString().length() >= 1;
+			setClearDrawableVisible(isVisible);
+			performClick();
+			break;
+		case MotionEvent.ACTION_UP:
+			break;
+		}
+
+		return super.onTouchEvent(event);
   }
   
   public boolean performClick() { return super.performClick(); }
