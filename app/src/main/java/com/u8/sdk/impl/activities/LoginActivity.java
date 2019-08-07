@@ -33,13 +33,18 @@ public class LoginActivity extends Activity {
   
   private final String KEY_PASSWORD = "u8_key_password";
   
-  private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-      public void onAnimationEnd(Animation param1Animation) { LoginActivity.access$202(LoginActivity.this, true); }
-      
-      public void onAnimationRepeat(Animation param1Animation) {}
-      
-      public void onAnimationStart(Animation param1Animation) { LoginActivity.access$202(LoginActivity.this, false); }
-    };
+	private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+		public void onAnimationEnd(Animation arg0) {
+			canTouch = true;
+		}
+
+		public void onAnimationRepeat(Animation arg0) {
+		}
+
+		public void onAnimationStart(Animation arg0) {
+			canTouch = false;
+		}
+	};
   
   private boolean canTouch = true;
   
@@ -72,11 +77,11 @@ public class LoginActivity extends Activity {
   private void doLogin() {
     final String username = this.x_login_username.getText().toString();
     final String password = this.x_login_userpwd.getText().toString();
-    if (TextUtils.isEmpty(str1) || TextUtils.isEmpty(str2)) {
+    if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
       ResourceHelper.showTip(this, "R.string.x_register_invalid_name_tip");
       return;
     } 
-    SdkManager.getInstance().login(str1, str2, new ISDKLoginListener() {
+    SdkManager.getInstance().login(username, password, new ISDKLoginListener() {
           public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
                   public void run() {
                     ResourceHelper.showTip(LoginActivity.this, "R.string.x_login_fail");
@@ -98,44 +103,44 @@ public class LoginActivity extends Activity {
   }
   
   private void doRegister(final String username, final String password, boolean paramBoolean) {
-    if (paramBoolean) {
-      SdkManager.getInstance().registerOnekey("", new ISDKRegisterOnekeyListener() {
+        if (paramBoolean) {
+          SdkManager.getInstance().registerOnekey("", new ISDKRegisterOnekeyListener() {
+                public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                          ResourceHelper.showTip(LoginActivity.this, "R.string.x_fastlogin_accout_fail");
+                          x_register_name.setText("");
+                          x_register_pwd.setText("");
+                          DefaultSDKPlatform.getInstance().loginFailCallback();
+                        }
+                      }); }
+
+                public void onSuccess(final String id, final String name, final String password) { LoginActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                          StoreUtils.putString(LoginActivity.this, "u8_key_login_name", name);
+                          StoreUtils.putString(LoginActivity.this, "u8_key_password", password);
+                          StringBuffer stringBuffer = new StringBuffer();
+                          stringBuffer.append(ResourceHelper.getString(LoginActivity.this, "R.string.x_fastlogin_accout")).append(name).append("\n").append(ResourceHelper.getString(LoginActivity.this, "R.string.x_fastlogin_pwd")).append(password);
+                          Toast.makeText(LoginActivity.this, stringBuffer.toString(), 0).show();
+                          DefaultSDKPlatform.getInstance().loginSucCallback(id, name);
+                          finish();
+                          overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_disappear_to_right"));
+                        }
+                      }); }
+              });
+          return;
+        } 
+        if ((TextUtils.isEmpty(username) || TextUtils.isEmpty(password))) {
+          Toast.makeText(this, ResourceHelper.getString(this, "R.string.x_register_invalid_name_tip"), 0).show();
+          return;
+        } 
+        SdkManager.getInstance().register(username, password, new ISDKLoginListener() {
             public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                      ResourceHelper.showTip(LoginActivity.this, "R.string.x_fastlogin_accout_fail");
+                      ResourceHelper.showTip(LoginActivity.this, "R.string.x_register_fail");
                       x_register_name.setText("");
                       x_register_pwd.setText("");
                       DefaultSDKPlatform.getInstance().loginFailCallback();
                     }
-                  }); }
-            
-            public void onSuccess(final String id, final String name, final String password) { LoginActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                      StoreUtils.putString(LoginActivity.this, "u8_key_login_name", name);
-                      StoreUtils.putString(LoginActivity.this, "u8_key_password", password);
-                      StringBuffer stringBuffer = new StringBuffer();
-                      stringBuffer.append(ResourceHelper.getString(LoginActivity.this, "R.string.x_fastlogin_accout")).append(name).append("\n").append(ResourceHelper.getString(LoginActivity.this, "R.string.x_fastlogin_pwd")).append(password);
-                      Toast.makeText(LoginActivity.this, stringBuffer.toString(), 0).show();
-                      DefaultSDKPlatform.getInstance().loginSucCallback(id, name);
-                      finish();
-                      overridePendingTransition(ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_appear_to_right"), ResourceHelper.getIdentifier(LoginActivity.this, "R.anim.x_disappear_to_right"));
-                    }
-                  }); }
-          });
-      return;
-    } 
-    if (TextUtils.isEmpty(paramString1) || TextUtils.isEmpty(paramString2)) {
-      Toast.makeText(this, ResourceHelper.getString(this, "R.string.x_register_invalid_name_tip"), 0).show();
-      return;
-    } 
-    SdkManager.getInstance().register(paramString1, paramString2, new ISDKLoginListener() {
-          public void onFailed(int param1Int) { LoginActivity.this.runOnUiThread(new Runnable() {
-                  public void run() {
-                    ResourceHelper.showTip(LoginActivity.this, "R.string.x_register_fail");
-                    x_register_name.setText("");
-                    x_register_pwd.setText("");
-                    DefaultSDKPlatform.getInstance().loginFailCallback();
-                  }
                 }); }
           
           public void onSuccess(final String id, final String name) { LoginActivity.this.runOnUiThread(new Runnable() {
@@ -174,21 +179,16 @@ public class LoginActivity extends Activity {
     linearLayout.setEnabled(true);
     linearLayout.setOnClickListener(new View.OnClickListener() {
           public void onClick(View param1View) {
-            boolean bool;
-            LoginActivity loginActivity;
-            if (!LoginActivity.this.showLoginPwd) {
-              bool = true;
-            } else {
-              bool = false;
-            } 
-            LoginActivity.access$602(loginActivity, bool);
-            if (LoginActivity.this.showLoginPwd) {
-              LoginActivity.this.x_login_userpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-              LoginActivity.this.x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this, "R.drawable.x_login_hidepwd"));
-              return;
-            } 
-            LoginActivity.this.x_login_userpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            LoginActivity.this.x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this, "R.drawable.x_login_showpwd"));
+              showLoginPwd = !showLoginPwd;
+              if (showLoginPwd) {
+                x_login_userpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this,
+                    "R.drawable.x_login_hidepwd"));
+              } else {
+                x_login_userpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this,
+                    "R.drawable.x_login_showpwd"));
+              }
           }
         });
     ((TextView)ResourceHelper.getView(this, "R.id.x_login_faststart")).setOnClickListener(new View.OnClickListener() {
@@ -227,21 +227,16 @@ public class LoginActivity extends Activity {
     this.x_register_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
     linearLayout2.setOnClickListener(new View.OnClickListener() {
           public void onClick(View param1View) {
-            boolean bool;
-            LoginActivity loginActivity;
-            if (!LoginActivity.this.showRegUserPwd) {
-              bool = true;
-            } else {
-              bool = false;
-            } 
-            LoginActivity.access$1102(loginActivity, bool);
-            if (LoginActivity.this.showRegUserPwd) {
-              LoginActivity.this.x_register_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-              x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this, "R.drawable.x_login_hidepwd"));
-              return;
-            } 
-            LoginActivity.this.x_register_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this, "R.drawable.x_login_showpwd"));
+              showRegUserPwd = !showRegUserPwd;
+              if (showRegUserPwd) {
+                x_register_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this,
+                    "R.drawable.x_login_hidepwd"));
+              } else {
+                x_register_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                x_login_showpwdImg.setBackgroundResource(ResourceHelper.getIdentifier(LoginActivity.this,
+                    "R.drawable.x_login_showpwd"));
+              }
           }
         });
   }
