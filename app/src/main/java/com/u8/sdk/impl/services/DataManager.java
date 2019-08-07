@@ -19,18 +19,23 @@ public class DataManager {
   
   private SimpleUser currLoginedUser;
   
-  private void addLoginedUser(Context paramContext, SimpleUser paramSimpleUser) {
-    if (paramSimpleUser == null)
-      return; 
-    List list = getAllLoginedUsers(paramContext);
-    for (SimpleUser simpleUser : list) {
-      if (simpleUser.getUsername().equals(paramSimpleUser.getUsername())) {
-        list.remove(simpleUser);
-        break;
-      } 
-    } 
-    list.add(0, paramSimpleUser);
-    saveLoginedUsers(paramContext, list);
+  /**
+	 * 添加一个已经登录的帐号
+	 * 
+	 * @param user
+	 */
+	private void addLoginedUser(Context context, SimpleUser user) {
+		if (user == null)
+			return;
+		List<SimpleUser> users = getAllLoginedUsers(context);
+		for (SimpleUser u : users) {
+			if (u.getUsername().equals(user.getUsername())) {
+				users.remove(u);
+				break;
+			}
+		}
+		users.add(0, user);
+		saveLoginedUsers(context, users);
   }
   
   private List<SimpleUser> getAllLoginedUsers(Context paramContext) {
@@ -80,43 +85,46 @@ public class DataManager {
     return null;
   }
   
-  public void removeLoginedUser(Context paramContext, SimpleUser paramSimpleUser) {
-    if (paramSimpleUser == null)
-      return; 
-    List list = getAllLoginedUsers(paramContext);
-    for (SimpleUser simpleUser : list) {
-      if (simpleUser.getUsername().equals(paramSimpleUser.getUsername())) {
-        list.remove(simpleUser);
-        break;
-      } 
-    } 
-    saveLoginedUsers(paramContext, list);
+	public void removeLoginedUser(Context context, SimpleUser user) {
+		if (user == null)
+			return;
+		List<SimpleUser> users = getAllLoginedUsers(context);
+		for (SimpleUser u : users) {
+			if (u.getUsername().equals(user.getUsername())) {
+				users.remove(u);
+				break;
+			}
+		}
+		saveLoginedUsers(context, users);
   }
   
-  public void saveLoginedUsers(Context paramContext, List<SimpleUser> paramList) {
-    JSONArray jSONArray;
-    if (paramList == null || paramList.size() == 0)
-      return; 
-    byte b2 = -1;
-    for (byte b1 = 0; b1 < paramList.size(); b1++) {
-      jSONArray = (SimpleUser)paramList.get(b1);
-      if (b2 >= 0 && jSONArray.isCurrSelected()) {
-        jSONArray.setCurrSelected(false);
-      } else if (jSONArray.isCurrSelected()) {
-        b2 = b1;
-      } 
-    } 
-    try {
-      jSONArray = new JSONArray();
-      Iterator iterator = paramList.iterator();
-      while (iterator.hasNext())
-        jSONArray.put(((SimpleUser)iterator.next()).toJSON()); 
-    } catch (Exception e) {
-      e.printStackTrace();
-      return;
-    } 
-    StoreUtils.putString(paramContext, "plocal_users", Base64.encode(jSONArray.toString().getBytes()));
-  }
+	public void saveLoginedUsers(Context context, List<SimpleUser> users) {
+      if (users == null || users.size() == 0) {
+        return;
+      }
+      // 检查当前使用的帐号
+      int selectedIndex = -1;
+      for (int i = 0; i < users.size(); i++) {
+        SimpleUser u = users.get(i);
+        if (selectedIndex >= 0 && u.isCurrSelected()) {
+          u.setCurrSelected(false);
+          continue;
+        }
+        if (u.isCurrSelected()) {
+          selectedIndex = i;
+        }
+      }
+      try {
+        JSONArray array = new JSONArray();
+        for (SimpleUser user : users) {
+          JSONObject obj = user.toJSON();
+          array.put(obj);
+        }
+        StoreUtils.putString(context, Consts.SKEY_USER, Base64.encode(array.toString().getBytes()));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+	}
   
   public void setCoinNum(long paramLong) { this.coinNum = paramLong; }
   
