@@ -7,6 +7,7 @@ import android.util.Log;
 import com.u8.sdk.PayParams;
 import com.u8.sdk.U8SDK;
 import com.u8.sdk.UserExtraData;
+import com.u8.sdk.impl.common.Consts;
 import com.u8.sdk.impl.listeners.ISDKListener;
 import com.u8.sdk.impl.listeners.ISDKLoginListener;
 import com.u8.sdk.impl.listeners.ISDKPayListener;
