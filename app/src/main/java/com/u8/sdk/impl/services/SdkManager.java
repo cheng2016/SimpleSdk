@@ -33,138 +33,155 @@ public class SdkManager {
   
   public void init(Context paramContext, ISDKListener paramISDKListener) { paramISDKListener.onSuccess(); }
   
-  public void login(String paramString1, String paramString2, final ISDKLoginListener listener) {
-    Log.d("U8SDK", "sdk login called. username:" + paramString1 + ";password:" + paramString2);
-    String str = System.currentTimeMillis() + "";
-    final HashMap hashMap = new HashMap();
-    hashMap.put("name", paramString1);
-    hashMap.put("password", paramString2);
-    hashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
-    hashMap.put("time", str);
-    hashMap.put("sign", EncryptUtils.md5Sign(hashMap, U8SDK.getInstance().getAppKey()));
+	public void login(String username, String password, final ISDKLoginListener listener) {
+		Log.d("U8SDK", "sdk login called. username:"+username+";password:"+password);
+		String curTime = System.currentTimeMillis() + "";
+		final Map<String, String> params = new HashMap<String, String>();
+		params.put("name", username);
+		params.put("password", password);
+		params.put("gameAppId", U8SDK.getInstance().getAppID()+"");
+		params.put("time", curTime);
+		params.put("sign", EncryptUtils.md5Sign(params, U8SDK.getInstance().getAppKey()));
+		
+		String loginUrl = U8SDK.getInstance().getU8ServerURL()+Consts.IMPL_USER_LOGIN;
+		final String url = loginUrl;
     GUtils.runInThread(new Runnable() {
-          public void run() {
-            str = U8HttpUtils.httpPost(url, hashMap);
-            Log.d("U8SDK", "default login result:" + str);
-            try {
-              JSONObject jSONObject = new JSONObject(str);
-              if (jSONObject.getInt("state") == 1) {
-                JSONObject jSONObject1 = jSONObject.getJSONObject("data");
-                String str1 = jSONObject1.optString("userId");
-                String str2 = jSONObject1.optString("username");
-                SdkManager.access$002(SdkManager.this, str1);
-                listener.onSuccess(str1, str2);
-                return;
-              } 
-              listener.onFailed(0);
-              return;
-            } catch (Exception str) {
-              listener.onFailed(0);
-              str.printStackTrace();
-              return;
-            } 
-          }
+			@Override
+			public void run() {
+				String content = U8HttpUtils.httpPost(url, params);
+				Log.d("U8SDK", "default login result:"+content);
+				try{
+					JSONObject json = new JSONObject(content);
+					int code = json.getInt("state");
+					if (code == Consts.CODE_SUCCESS) {
+						JSONObject jData = json.getJSONObject("data");
+						String userId = jData.optString("userId");
+						String username = jData.optString("username");
+						lastUserID = userId;
+						listener.onSuccess(userId, username);
+					}else{
+						listener.onFailed(Consts.CODE_FAILED);
+					}
+				}catch(Exception e){
+					listener.onFailed(Consts.CODE_FAILED);
+					e.printStackTrace();
+				}
+			}
+		});
+  }
+  
+	public void pay(Activity context, PayParams params, final ISDKPayListener listener){
+		
+		if(TextUtils.isEmpty(lastUserID)){
+			Log.d("U8SDK", "sdk now not logined. please login first.");
+			ResourceHelper.showTip(context, "R.string.x_pay_no_login");
+			return;
+		}
+		
+		final Map<String, String> data = new LinkedHashMap<String, String>();
+		data.put("uid", lastUserID);
+		data.put("price", params.getPrice() + "");
+		data.put("gameAppId", U8SDK.getInstance().getAppID()+"");
+		data.put("productID", params.getProductId());
+		data.put("productName", params.getProductName());
+		data.put("orderID", params.getOrderID());
+		data.put("time", System.currentTimeMillis()+"");
+		data.put("payNotifyUrl", params.getExtension());
+		data.put("sign", EncryptUtils.md5Sign(data, U8SDK.getInstance().getAppKey()));
+		
+		String payUrl = U8SDK.getInstance().getU8ServerURL() + Consts.IMPL_USER_PAY;
+		final String url = payUrl;
+    
+      GUtils.runInThread(new Runnable() {
+            @Override
+            public void run() {
+                String content = U8HttpUtils.httpPost(url, data);
+                Log.d("U8SDK", "default pay result:" + content);
+                try {
+                    JSONObject json = new JSONObject(content);
+                    int code = json.getInt("state");
+                    if (code == Consts.CODE_SUCCESS) {
+                        listener.onSuccess("success");
+                    } else {
+                        listener.onFailed(Consts.CODE_FAILED);
+                    }
+                } catch (Exception e) {
+                    listener.onFailed(Consts.CODE_FAILED);
+                    e.printStackTrace();
+                }
+            }
         });
   }
   
-  public void pay(Activity paramActivity, PayParams paramPayParams, final ISDKPayListener listener) {
-    if (TextUtils.isEmpty(this.lastUserID)) {
-      Log.d("U8SDK", "sdk now not logined. please login first.");
-      ResourceHelper.showTip(paramActivity, "R.string.x_pay_no_login");
-      return;
-    } 
-    final LinkedHashMap linkedHashMap = new LinkedHashMap();
-    linkedHashMap.put("uid", this.lastUserID);
-    linkedHashMap.put("price", paramPayParams.getPrice() + "");
-    linkedHashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
-    linkedHashMap.put("productID", paramPayParams.getProductId());
-    linkedHashMap.put("productName", paramPayParams.getProductName());
-    linkedHashMap.put("orderID", paramPayParams.getOrderID());
-    linkedHashMap.put("time", System.currentTimeMillis() + "");
-    linkedHashMap.put("payNotifyUrl", paramPayParams.getExtension());
-    linkedHashMap.put("sign", EncryptUtils.md5Sign(linkedHashMap, U8SDK.getInstance().getAppKey()));
-    GUtils.runInThread(new Runnable() {
-          public void run() {
-            str = U8HttpUtils.httpPost(url, linkedHashMap);
-            Log.d("U8SDK", "default pay result:" + str);
-            try {
-              if ((new JSONObject(str)).getInt("state") == 1) {
-                listener.onSuccess("success");
-                return;
-              } 
-              listener.onFailed(0);
-              return;
-            } catch (Exception str) {
-              listener.onFailed(0);
-              str.printStackTrace();
-              return;
-            } 
-          }
+    public void register(String name, String password, final ISDKLoginListener listener) {
+        String curTime = System.currentTimeMillis() + "";
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("name", name);
+        params.put("password", password);
+        params.put("gameAppId", U8SDK.getInstance().getAppID() + "");
+        params.put("time", curTime);
+        params.put("sign", EncryptUtils.md5Sign(params, U8SDK.getInstance().getAppKey()));
+
+        String regUrl = U8SDK.getInstance().getU8ServerURL() + Consts.IMPL_USER_REG;
+        final String url = regUrl;
+        GUtils.runInThread(new Runnable() {
+            @Override
+            public void run() {
+                String content = U8HttpUtils.httpPost(url, params);
+                Log.d("U8SDK", "default register result:" + content);
+                try {
+                    JSONObject json = new JSONObject(content);
+                    int code = json.getInt("state");
+                    if (code == Consts.CODE_SUCCESS) {
+                        JSONObject jData = json.getJSONObject("data");
+                        String userId = jData.optString("userId");
+                        String username = jData.optString("username");
+                        lastUserID = userId;
+                        listener.onSuccess(userId, username);
+
+                    } else {
+                        listener.onFailed(Consts.CODE_FAILED);
+                    }
+                } catch (Exception e) {
+                    listener.onFailed(Consts.CODE_FAILED);
+                    e.printStackTrace();
+                }
+            }
         });
   }
   
-  public void register(String paramString1, String paramString2, final ISDKLoginListener listener) {
-    String str = System.currentTimeMillis() + "";
-    final HashMap hashMap = new HashMap();
-    hashMap.put("name", paramString1);
-    hashMap.put("password", paramString2);
-    hashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
-    hashMap.put("time", str);
-    hashMap.put("sign", EncryptUtils.md5Sign(hashMap, U8SDK.getInstance().getAppKey()));
-    GUtils.runInThread(new Runnable() {
-          public void run() {
-            str = U8HttpUtils.httpPost(url, hashMap);
-            Log.d("U8SDK", "default register result:" + str);
-            try {
-              JSONObject jSONObject = new JSONObject(str);
-              if (jSONObject.getInt("state") == 1) {
-                JSONObject jSONObject1 = jSONObject.getJSONObject("data");
-                String str1 = jSONObject1.optString("userId");
-                String str2 = jSONObject1.optString("username");
-                SdkManager.access$002(SdkManager.this, str1);
-                listener.onSuccess(str1, str2);
-                return;
-              } 
-              listener.onFailed(0);
-              return;
-            } catch (Exception str) {
-              listener.onFailed(0);
-              str.printStackTrace();
-              return;
-            } 
-          }
-        });
-  }
-  
-  public void registerOnekey(String paramString, final ISDKRegisterOnekeyListener listener) {
-    paramString = System.currentTimeMillis() + "";
-    final HashMap hashMap = new HashMap();
-    hashMap.put("gameAppId", U8SDK.getInstance().getAppID() + "");
-    hashMap.put("time", paramString);
-    hashMap.put("sign", EncryptUtils.md5Sign(hashMap, U8SDK.getInstance().getAppKey()));
-    GUtils.runInThread(new Runnable() {
-          public void run() {
-            str = U8HttpUtils.httpPost(url, hashMap);
-            Log.d("U8SDK", "default fast register result:" + str);
-            try {
-              JSONObject jSONObject = new JSONObject(str);
-              if (jSONObject.getInt("state") == 1) {
-                JSONObject jSONObject1 = jSONObject.getJSONObject("data");
-                String str1 = jSONObject1.optString("userId");
-                String str2 = jSONObject1.optString("username");
-                String str3 = jSONObject1.optString("password");
-                SdkManager.access$002(SdkManager.this, str1);
-                listener.onSuccess(str1, str2, str3);
-                return;
-              } 
-              listener.onFailed(0);
-              return;
-            } catch (Exception str) {
-              listener.onFailed(0);
-              str.printStackTrace();
-              return;
-            } 
-          }
+    public void registerOnekey(String extra, final ISDKRegisterOnekeyListener listener) {
+        String curTime = System.currentTimeMillis() + "";
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("gameAppId", U8SDK.getInstance().getAppID() + "");
+        params.put("time", curTime);
+        params.put("sign", EncryptUtils.md5Sign(params, U8SDK.getInstance().getAppKey()));
+
+        String regUrl = U8SDK.getInstance().getU8ServerURL() + Consts.IMPL_USER_REG_FAST;
+        final String url = regUrl;
+        GUtils.runInThread(new Runnable() {
+            @Override
+            public void run() {
+                String content = U8HttpUtils.httpPost(url, params);
+                Log.d("U8SDK", "default fast register result:" + content);
+                try {
+                    JSONObject json = new JSONObject(content);
+                    int code = json.getInt("state");
+                    if (code == Consts.CODE_SUCCESS) {
+                        JSONObject jData = json.getJSONObject("data");
+                        String userId = jData.optString("userId");
+                        String username = jData.optString("username");
+                        String password = jData.optString("password");
+                        lastUserID = userId;
+                        listener.onSuccess(userId, username, password);
+                    } else {
+                        listener.onFailed(Consts.CODE_FAILED);
+                    }
+                } catch (Exception e) {
+                    listener.onFailed(Consts.CODE_FAILED);
+                    e.printStackTrace();
+                }
+            }
         });
   }
   
