@@ -71,7 +71,7 @@ public class PayActivity extends Activity {
           ((GridPayAdapter.GridPayTypeData)iterator.next()).isChecked = false; 
         GridPayAdapter.GridPayTypeData gridPayTypeData = (GridPayAdapter.GridPayTypeData)PayActivity.this.payTypeList.get(i);
         gridPayTypeData.isChecked = true;
-        PayActivity.access$302(PayActivity.this, gridPayTypeData);
+        currSelected = gridPayTypeData;
         PayActivity.this.payAdapter.notifyDataSetChanged();
       }
     };
