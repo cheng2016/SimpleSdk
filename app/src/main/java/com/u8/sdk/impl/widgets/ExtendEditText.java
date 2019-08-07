@@ -133,19 +133,14 @@ public class ExtendEditText extends EditText {
   private class FocusChangeListenerImpl implements View.OnFocusChangeListener {
     private FocusChangeListenerImpl() {}
     
-    public void onFocusChange(View param1View, boolean param1Boolean) {
-      boolean bool = true;
-      ExtendEditText.access$202(ExtendEditText.this, param1Boolean);
-      if (ExtendEditText.this.isHasFocus) {
-        if (ExtendEditText.this.getText().toString().length() >= 1) {
-          param1Boolean = bool;
+    public void onFocusChange(View param1View, boolean hasFocus) {
+        ExtendEditText.this.isHasFocus = hasFocus;
+        if (ExtendEditText.this.isHasFocus) {
+          boolean isVisible = ExtendEditText.this.getText().toString().length() >= 1;
+          ExtendEditText.this.setClearDrawableVisible(isVisible);
         } else {
-          param1Boolean = false;
-        } 
-        ExtendEditText.this.setClearDrawableVisible(param1Boolean);
-        return;
-      } 
-      ExtendEditText.this.setClearDrawableVisible(false);
+          ExtendEditText.this.setClearDrawableVisible(false);
+        }
     }
   }
   
