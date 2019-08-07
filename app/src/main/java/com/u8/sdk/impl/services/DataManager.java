@@ -3,6 +3,8 @@ package com.u8.sdk.impl.services;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.u8.sdk.impl.common.Consts;
 import com.u8.sdk.impl.data.SimpleUser;
 import com.u8.sdk.utils.Base64;
 import com.u8.sdk.utils.StoreUtils;
@@ -11,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DataManager {
   private static DataManager instance;
