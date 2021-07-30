@@ -33,7 +33,7 @@
        
 3. 安装
 
-	   adb install %1_newSign.apk	
+       adb install %1
 	
 	
 #### main.bat  ：
