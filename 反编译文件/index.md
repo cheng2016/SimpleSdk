@@ -19,15 +19,23 @@
        java -jar apktool_2.3.4.jar b %1 
        pause
        
-2. 签名和按照流程     
+   回编.bat 代码：
+   
+       @echo off
+       java -jar apktool4.jar b %1 
+       pause
+       
+2. 签名.bat 代码：     
 
-	   java -jar signapk.jar hygamekey.x509.pem hygamekey.pk8 %1/dist/*.apk %1_newSign.apk 
-		
+       @echo off
+       java -jar signapk.jar hygamekey.x509.pem hygamekey.pk8 %1/dist/*.apk %1_newSign.apk && adb install %1_newSign.apk
+       pause
+       
 3. 安装
 
 	   adb install %1_newSign.apk	
-		
-
+	
+	
 #### main.bat  ：
 
 	@echo off
