@@ -10,10 +10,10 @@
 	   //反编译
 	   apktool_2.3.4.jar d -f demo.apk 
 
-	   //重新打包
+	   //回编重新打包
 	   apktool_2.3.4.jar b .\demo\   
      
-   反编译.bat代码  
+   反编.bat代码  
      
        @echo off
        java -jar apktool_2.3.4.jar b %1 
